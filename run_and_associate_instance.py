@@ -48,9 +48,16 @@ for instance in instances:
 
 
 startup_cmd = '''#!/bin/bash
-
-echo "bazle" > /etc/foozle
+aws s3 cp s3://cms-sc17/s3fs /usr/local/bin/s3fs
+chmod 755 /usr/local/bin/s3fs
+yum -y install fuse fuse-devel emacs-nox
+mkdir /cms-sc17
+chown ec2-user /cms-sc17
+echo 's3fs#cms-sc17 /cms-sc17         fuse _netdev,allow_other,uid=500,iam_role=auto,endpoint=us-west-2 0 0' >> /etc/fstab
+mount /cms-sc17
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAsS2eIutvUVEnIWw7Z28EzCcmBBYgDB3Pzkgvdxnn47VUxhE7DxSIoNZyDkShBnItfHoZVWlMc86FZMYTX/L4Qg63lgT9lYxLf991L6/zWT2DFs/xTe1kX8p08jB38VBGmROVmBFCfkYCRx0VgJL2REI+UKjQmZYvzBJ7BnRMdCgsfnQT8wI+AymTuCHUdKYBRlCPaZCee8v+s9qpbO2bhIzCiB/ufmzaguxu9AzLGt2GXm9eETpWl9Gs7BeDQzl03xXj6wQaB6BsnLdJ+9GGQIqEcoOPp0wntwV+TxI1ze0iAclqkTlDzCkwP25e/vU76hoSbndkHGi9YIg79ouDKQ== burt" >> ~ec2-user/.ssh/authorized_keys
 '''
+
 
 result = ec2.create_instances(ImageId = image_id,
                      InstanceType = instance_type,
