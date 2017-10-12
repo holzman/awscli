@@ -8,6 +8,9 @@ import time
 parser = OptionParser()
 parser.add_option("-a", "--all", dest="all_users", action="store_true", default=False,
                   help="list instances for all users")
+parser.add_option("-r", "--running", dest="running", action="store_true", default=False,
+                  help="list only running instances")
+
 (options, args) = parser.parse_args()
 
 now = datetime.datetime.utcnow()
@@ -16,8 +19,12 @@ ec2 = boto3.resource('ec2', region_name='us-west-2')
 iam = boto3.resource('iam')
 username = iam.CurrentUser().user_name
 
+states = ['running', 'stopped', 'stopping', 'pending', 'terminating']
+if options.running:
+    states = ['running']
+
 filters = [
-    {'Name': 'instance-state-name', 'Values': ['running', 'stopped', 'stopping', 'pending', 'terminating']},
+    {'Name': 'instance-state-name', 'Values': states},
            {'Name':'tag:user', 'Values':['burt']},
            {'Name':'tag:type', 'Values':['cms-ml']}
            ]
