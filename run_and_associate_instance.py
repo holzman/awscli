@@ -13,13 +13,21 @@ parser.add_option("-l", "--lifetime", dest="lifetime",
                   help="lifetime of the EC2 instance in minutes [DEFAULT: 120]",
                   default=1440)
 parser.add_option("-t", "--type", dest="instance_type", default="t2.micro", help="AWS instance type [DEFAULT: t2.micro]")
+
+# default_ami='ami-296e7850' # AMI Deep Learning 2.2
+default_ami='ami-72ed1e0a' # AMI Deep Learning 3.1
+
+parser.add_option("-i", "--image", dest="image_id", default=default_ami, help="AWS AMI id [DEFAULT:%s]" % default_ami)
+
 parser.add_option("-n", "--no-alloc", dest="dontAllocateIP", default=False,
                   action="store_true", help="do not allocate fixed IP")
+
 
 (options, args) = parser.parse_args()
 username = options.username
 lifetime = str(options.lifetime)
 instance_type = options.instance_type
+image_id = options.image_id
 
 if not username:
     parser.error('Missing required parameter: user')
@@ -32,11 +40,11 @@ iam_instance_profile = 'S3_ReadOnly_CMS'
 iisb = 'stop'
 
 # tiny image for BH testing
-image_id = 'ami-aa5ebdd2'
+#image_id = 'ami-aa5ebdd2'
 #instance_type = 't2.nano'
 
 # less tiny image for ML testing
-image_id = 'ami-296e7850'
+#image_id = 'ami-296e7850'
 #instance_type = 't2.micro'
 
 filters = [{'Name': 'instance-state-name', 'Values': ['running', 'stopped', 'stopping', 'pending']},
@@ -53,7 +61,7 @@ startup_cmd = '''#!/bin/bash
 pip install Keras --upgrade --no-deps
 aws s3 cp s3://cms-sc17/s3fs /usr/local/bin/s3fs
 chmod 755 /usr/local/bin/s3fs
-yum -y install fuse fuse-devel emacs-nox
+yum -y install fuse fuse-devel emacs-nox singularity
 mkdir /cms-sc17
 chown ec2-user /cms-sc17
 echo 's3fs#cms-sc17 /cms-sc17         fuse _netdev,allow_other,uid=500,iam_role=auto,endpoint=us-west-2 0 0' >> /etc/fstab
