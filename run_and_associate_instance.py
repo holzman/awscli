@@ -14,6 +14,7 @@ parser.add_option("-l", "--lifetime", dest="lifetime",
                   default=1440)
 parser.add_option("-t", "--type", dest="instance_type", default="t2.micro", help="AWS instance type [DEFAULT: t2.micro]")
 
+# FPGA AMI: ami-0ee61876
 # default_ami='ami-296e7850' # AMI Deep Learning 2.2
 default_ami='ami-72ed1e0a' # AMI Deep Learning 3.1
 
@@ -64,7 +65,7 @@ chmod 755 /usr/local/bin/s3fs
 yum -y install fuse fuse-devel emacs-nox singularity
 mkdir /cms-sc17
 chown ec2-user /cms-sc17
-echo 's3fs#cms-sc17 /cms-sc17         fuse _netdev,allow_other,uid=500,iam_role=auto,endpoint=us-west-2 0 0' >> /etc/fstab
+echo 's3fs#cms-sc17 /cms-sc17         fuse _netdev,allow_other,uid=500,iam_role=auto,endpoint=us-west-2,umask=333 0 0' >> /etc/fstab
 mount /cms-sc17
 mkdir -p ~ec2-user/.config/matplotlib
 echo "backend:Agg" > ~ec2-user/.config/matplotlib/matplotlibrc
