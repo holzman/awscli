@@ -16,6 +16,7 @@ parser.add_option("-t", "--type", dest="instance_type", default="t2.micro", help
 
 # FPGA AMI: ami-0ee61876
 # default_ami='ami-296e7850' # AMI Deep Learning 2.2
+# default_ami = 'ami-aa19d6d2' # AMI Cuda9 DL 1.0
 default_ami='ami-72ed1e0a' # AMI Deep Learning 3.1
 
 parser.add_option("-i", "--image", dest="image_id", default=default_ami, help="AWS AMI id [DEFAULT:%s]" % default_ami)

@@ -43,7 +43,9 @@ out2 = ''
 
 amimap = {'ami-0ee61876': 'FPGA HDK',
           'ami-72ed1e0a': 'DL 3.1  ',
-          'ami-296e7850': 'DL 2.2  '}
+          'ami-296e7850': 'DL 2.2  ',
+          'ami-aa19d6d2': 'Cuda9 DL 1.0',
+}
 
 if options.bare_ami:
     amimap = {}
