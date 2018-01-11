@@ -50,7 +50,7 @@ amimap = {'ami-0ee61876': 'FPGA HDK',
 if options.bare_ami:
     amimap = {}
 for instance in instances:
-
+    az = instance.placement['AvailabilityZone']
     tag_str = ''
     lifetime = '0'
     for tag in instance.tags:
@@ -64,14 +64,16 @@ for instance in instances:
 
     outstr = "%s\t%s\t%8s\t%s\t%s\t" % (instance.state.get("Name"), instance.public_ip_address, tag_str, instance.id, instance.instance_type)
     outstr += "%s\t" % amimap.get(instance.image_id, instance.image_id)
-    outstr += "%s  %s\t%s\n" % (lt, lifetime, kill)
+    outstr += "%s\t" % az
+    outstr += "%s  %s\t\n" % (lt, lifetime)
     out1 += outstr
 
 
 
 print "%s\t%s\t\t%8s\t%s\t\t\t%s" % ('State', 'IP', 'Owner', 'ID', 'type'),
 print "\t\t%s" % ('AMI'),
-print "\t\t%s    %s\t\t%s\n" % ('Launch_time (UTC)', 'Lifetime', 'Kill?')
+print "\t\t%s" % ('AZ'),
+print "\t\t%s    %s\t\t\n" % ('Launch_time (UTC)', 'Lifetime')
 
 print out1
 
