@@ -17,6 +17,8 @@ while group['IsTruncated']:
 
 now = datetime.datetime.now()
 
+if 'burt' not in usernames: usernames.append('burt')
+
 for user in usernames:
     akeys = iam.list_access_keys(UserName=user)  ['AccessKeyMetadata']
     for akey in akeys:
