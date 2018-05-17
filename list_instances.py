@@ -41,10 +41,11 @@ instances = ec2.instances.filter(Filters=filters)
 out1 = ''
 out2 = ''
 
-amimap = {'ami-0ee61876': 'FPGA HDK',
+amimap = {'ami-0ee61876': 'FPGA HDK 1.3.3',
           'ami-72ed1e0a': 'DL 3.1  ',
           'ami-296e7850': 'DL 2.2  ',
           'ami-aa19d6d2': 'Cuda9 DL 1.0',
+          'ami-c6ac34be': 'FPGA HDK 1.3.4',
 }
 
 if options.bare_ami:
@@ -62,7 +63,7 @@ for instance in instances:
 
     kill = (instance.state.get("Name") == 'running') and (now-lt) > lifetime
 
-    outstr = "%s\t%s\t%8s\t%s\t%s\t" % (instance.state.get("Name"), instance.public_ip_address, tag_str, instance.id, instance.instance_type)
+    outstr = "%s\t%15s\t%8s\t%s\t%s\t" % (instance.state.get("Name"), instance.public_ip_address, tag_str, instance.id, instance.instance_type)
     outstr += "%s\t" % amimap.get(instance.image_id, instance.image_id)
     outstr += "%s\t" % az
     outstr += "%s  %s\t\n" % (lt, lifetime)
@@ -71,7 +72,7 @@ for instance in instances:
 
 
 print "%s\t%s\t\t%8s\t%s\t\t\t%s" % ('State', 'IP', 'Owner', 'ID', 'type'),
-print "\t\t%s" % ('AMI'),
+print "\t\t%10s" % ('AMI'),
 print "\t\t%s" % ('AZ'),
 print "\t\t%s    %s\t\t\n" % ('Launch_time (UTC)', 'Lifetime')
 
