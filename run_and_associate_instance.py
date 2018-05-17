@@ -21,7 +21,7 @@ default_ami='ami-72ed1e0a' # AMI Deep Learning 3.1
 
 parser.add_option("-i", "--image", dest="image_id", default=default_ami, help="AWS AMI id [DEFAULT:%s]" % default_ami)
 
-parser.add_option("-n", "--no-alloc", dest="dontAllocateIP", default=False,
+parser.add_option("-n", "--no-alloc", dest="dontAllocateIP", default=True,
                   action="store_true", help="do not allocate fixed IP")
 
 
@@ -39,6 +39,11 @@ client = boto3.client('ec2', region_name='us-west-2')
 
 key_name = username
 iam_instance_profile = 'S3_ReadOnly_CMS'
+
+if instance_type = 't2.2xlarge' or instance_type = 'f1.2xlarge':
+    # assume this is for FPGA development and not ML
+    iam_instance_profile = 'CMS_S3_AFI_ReadWrite'
+
 iisb = 'stop'
 
 # tiny image for BH testing
