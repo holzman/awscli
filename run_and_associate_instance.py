@@ -40,7 +40,7 @@ client = boto3.client('ec2', region_name='us-west-2')
 key_name = username
 iam_instance_profile = 'S3_ReadOnly_CMS'
 
-if instance_type = 't2.2xlarge' or instance_type = 'f1.2xlarge':
+if instance_type == 't2.2xlarge' or instance_type == 'f1.2xlarge':
     # assume this is for FPGA development and not ML
     iam_instance_profile = 'CMS_S3_AFI_ReadWrite'
 
@@ -68,7 +68,7 @@ startup_cmd = '''#!/bin/bash
 pip install Keras --upgrade --no-deps
 aws s3 cp s3://cms-sc17/s3fs /usr/local/bin/s3fs
 chmod 755 /usr/local/bin/s3fs
-yum -y install fuse fuse-devel emacs-nox singularity
+yum -y install fuse fuse-devel emacs-nox
 mkdir /cms-sc17
 chown ec2-user /cms-sc17
 echo 's3fs#cms-sc17 /cms-sc17         fuse _netdev,allow_other,uid=500,iam_role=auto,endpoint=us-west-2,umask=333 0 0' >> /etc/fstab
