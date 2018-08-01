@@ -46,6 +46,8 @@ amimap = {'ami-0ee61876': 'FPGA HDK 1.3.3',
           'ami-296e7850': 'DL 2.2  ',
           'ami-aa19d6d2': 'Cuda9 DL 1.0',
           'ami-c6ac34be': 'FPGA HDK 1.3.4',
+          'ami-cfe89eb7': 'FPGA HDK 1.4.0',
+          'ami-f275218a': 'DL 11.0 ',
 }
 
 if options.bare_ami:
