@@ -49,6 +49,12 @@ amimap = {'ami-0ee61876': 'FPGA-HDK 1.3.3',
           'ami-f275218a': 'DL 11.0 ',
 }
 
+fstr = '{:10.10} {:14.14} {:10.10} {:20.20} {:12.12} {:16.16} {:12.12} {:20.20} {:10}'
+
+print(fstr.format('State', 'IP', 'Owner', 'ID', 'type', 'AMI', 'AZ', 'Launch_time (UTC)', 'Lifetime'))
+print
+
+
 if options.bare_ami:
     amimap = {}
 for instance in instances:
@@ -64,18 +70,13 @@ for instance in instances:
 
     kill = (instance.state.get("Name") == 'running') and (now-lt) > lifetime
 
-    outstr = "%8s\t%s\t%s\t" % (tag_str, instance.id, instance.instance_type)
-    outstr += "%s\t" % amimap.get(instance.image_id, instance.image_id)
-    outstr += "%s\t" % az
-    outstr += "%s  %s\t\n" % (lt, lifetime)
-    out1 += outstr
+    outstr = fstr.format(instance.state.get("Name"), instance.public_ip_address, tag_str, instance.id,
+                         instance.instance_type, amimap.get(instance.image_id, instance.image_id), az, str(lt), lifetime)
+
+    print(outstr)
 
 
-#print "%8s\t%s\t\t\t%s" % ('Owner', 'ID', 'type'),
-print "%s\t%s\t\t%8s\t%s\t\t\t%s" % ('State', 'IP', 'Owner', 'ID', 'type'),
-print "\t%10s" % ('AMI'),
-print "\t\t%s" % ('AZ'),
-print "\t\t%s    %s\t\t\n" % ('Launch_time (UTC)', 'Lifetime')
 
-print out1
+
+
 
